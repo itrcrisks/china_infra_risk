@@ -750,7 +750,7 @@ def get_hazard_magnitude(hazard_effect_df,hazard_columns,asset_protection_standa
                                                 )
     hazard_columns_mod = [f"{c}_mod" for c in hazard_columns]
     hazard_effect_df[hazard_columns_mod] = hazard_effect_df[hazard_columns].sub(hazard_effect_df.hazard_threshold,axis=0)
-    hazard_effect_df = hazard_effect_df[(hazard_effect_df[hazard_columns_mod]>0).any(axis=1)]
+    # hazard_effect_df = hazard_effect_df[(hazard_effect_df[hazard_columns_mod]>0).any(axis=1)]
     
     return hazard_effect_df, hazard_columns_mod
 
