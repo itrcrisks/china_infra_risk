@@ -128,145 +128,145 @@ def main(config):
                             'file_name':'losses_numbers_by_region_climate_scenario_model_year_return_period.xlsx',
                             'generate_quantiles':True 
                             },
-                            # {
-                            # 'type':'risks',
-                            # 'EAD_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'epoch',
-                            #             'damage_cost_parameter',
-                            #             'fragility_parameter',
-                            #         ],
+                            {
+                            'type':'risks',
+                            'EAD_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'epoch',
+                                        'damage_cost_parameter',
+                                        'fragility_parameter',
+                                    ],
 
-                            # 'EAEL_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'epoch',
-                            #             'fragility_parameter',
-                            #             'duration',
-                            #             'economic_loss_parameter',
-                            #         ],
-                            # 'file_name':'risk_numbers_climate_scenario_model_year_sensitivity_parameters.xlsx',
-                            # 'generate_quantiles':True  
-                            # },
-                            # {
-                            # 'type':'risks_timeseries',
-                            # 'filestring':'timeseries',
-                            # 'EAD_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'damage_cost_parameter',
-                            #             'fragility_parameter',
-                            #         ],
+                            'EAEL_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'epoch',
+                                        'fragility_parameter',
+                                        'duration',
+                                        'economic_loss_parameter',
+                                    ],
+                            'file_name':'risk_numbers_climate_scenario_model_year_sensitivity_parameters.xlsx',
+                            'generate_quantiles':True  
+                            },
+                            {
+                            'type':'risks_timeseries',
+                            'filestring':'timeseries',
+                            'EAD_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'damage_cost_parameter',
+                                        'fragility_parameter',
+                                    ],
 
-                            # 'EAEL_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'duration',
-                            #             'economic_loss_parameter',
-                            #             'fragility_parameter',
-                            #             'growth_rate'
-                            #         ],
-                            # 'file_name':'risk_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
-                            # 'generate_quantiles':True  
-                            # },
-                            # {
-                            # 'type':'discounted_risks_timeseries',
-                            # 'filestring':'timeseries_discounted',
-                            # 'EAD_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'damage_cost_parameter',
-                            #             'fragility_parameter',
-                            #             'discount_rate'
-                            #         ],
+                            'EAEL_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'duration',
+                                        'economic_loss_parameter',
+                                        'fragility_parameter',
+                                        'growth_rate'
+                                    ],
+                            'file_name':'risk_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
+                            'generate_quantiles':True  
+                            },
+                            {
+                            'type':'discounted_risks_timeseries',
+                            'filestring':'timeseries_discounted',
+                            'EAD_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'damage_cost_parameter',
+                                        'fragility_parameter',
+                                        'discount_rate'
+                                    ],
 
-                            # 'EAEL_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'duration',
-                            #             'economic_loss_parameter',
-                            #             'fragility_parameter',
-                            #             'discount_rate',
-                            #             'growth_rate'
-                            #         ],
-                            # 'file_name':'discounted_risk_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
-                            # 'generate_quantiles':True  
-                            # },
-                            # {
-                            # 'type':'risks_timeseries_assets',
-                            # 'filestring':'timeseries',
-                            # 'EAD_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'damage_cost_parameter',
-                            #             'fragility_parameter'
-                            #         ],
+                            'EAEL_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'duration',
+                                        'economic_loss_parameter',
+                                        'fragility_parameter',
+                                        'discount_rate',
+                                        'growth_rate'
+                                    ],
+                            'file_name':'discounted_risk_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
+                            'generate_quantiles':True  
+                            },
+                            {
+                            'type':'risks_timeseries_assets',
+                            'filestring':'timeseries',
+                            'EAD_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'damage_cost_parameter',
+                                        'fragility_parameter'
+                                    ],
 
-                            # 'EAEL_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'duration',
-                            #             'economic_loss_parameter',
-                            #             'growth_rate'
-                            #         ],
-                            # 'groupby': ['rcp'],
-                            # 'file_name':'asset_risk_timeseries_climate_scenarios_mean.xlsx',
-                            # 'generate_quantiles':False  
-                            # },
-                            # {
-                            # 'type':'discounted_risks_timeseries_assets',
-                            # 'filestring':'timeseries_discounted',
-                            # 'EAD_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'damage_cost_parameter',
-                            #             'fragility_parameter',
-                            #             'discount_rate'
-                            #         ],
+                            'EAEL_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'duration',
+                                        'economic_loss_parameter',
+                                        'growth_rate'
+                                    ],
+                            'groupby': ['rcp'],
+                            'file_name':'asset_risk_timeseries_climate_scenarios_mean.xlsx',
+                            'generate_quantiles':False  
+                            },
+                            {
+                            'type':'discounted_risks_timeseries_assets',
+                            'filestring':'timeseries_discounted',
+                            'EAD_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'damage_cost_parameter',
+                                        'fragility_parameter',
+                                        'discount_rate'
+                                    ],
 
-                            # 'EAEL_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'duration',
-                            #             'economic_loss_parameter',
-                            #             'discount_rate',
-                            #             'growth_rate'
-                            #         ],
-                            # 'groupby': ['rcp'],
-                            # 'file_name':'asset_discounted_risk_timeseries_climate_scenarios_mean.xlsx',
-                            # 'generate_quantiles':False  
-                            # },
-                            # {
-                            # 'type':'investments',
-                            # 'groupby':[],
-                            # 'file_name':'investment_numbers.xlsx',
-                            # 'generate_quantiles':False 
-                            # },
-                            # {
-                            # 'type':'investment_timeseries',
-                            # 'EAD_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'damage_cost_parameter',
-                            #             'fragility_parameter',
-                            #             'discount_rate'
-                            #         ],
-                            # 'EAEL_groupby':[
-                            #             'rcp',
-                            #             'model',
-                            #             'duration',
-                            #             'fragility_parameter',
-                            #             'economic_loss_parameter',
-                            #             'discount_rate',
-                            #             'growth_rate'
-                            #         ],
-                            # 'cost_groupby':[
-                            #             'discount_rate'
-                            #         ], 
-                            # 'file_name':'investment_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
-                            # 'generate_quantiles':True  
-                            # },
+                            'EAEL_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'duration',
+                                        'economic_loss_parameter',
+                                        'discount_rate',
+                                        'growth_rate'
+                                    ],
+                            'groupby': ['rcp'],
+                            'file_name':'asset_discounted_risk_timeseries_climate_scenarios_mean.xlsx',
+                            'generate_quantiles':False  
+                            },
+                            {
+                            'type':'investments',
+                            'groupby':[],
+                            'file_name':'investment_numbers.xlsx',
+                            'generate_quantiles':False 
+                            },
+                            {
+                            'type':'investment_timeseries',
+                            'EAD_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'damage_cost_parameter',
+                                        'fragility_parameter',
+                                        'discount_rate'
+                                    ],
+                            'EAEL_groupby':[
+                                        'rcp',
+                                        'model',
+                                        'duration',
+                                        'fragility_parameter',
+                                        'economic_loss_parameter',
+                                        'discount_rate',
+                                        'growth_rate'
+                                    ],
+                            'cost_groupby':[
+                                        'discount_rate'
+                                    ], 
+                            'file_name':'investment_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
+                            'generate_quantiles':True  
+                            },
                         ]
 
     quantile_combinations = [
@@ -327,55 +327,55 @@ def main(config):
                                     ],
                             'file_name':'losses_numbers_by_region_climate_scenario_year_return_period.xlsx',
                             },
-                            # {
-                            # 'type':'risks',
-                            # 'groupby':[
-                            #             'rcp',
-                            #             'epoch'
-                            #         ],
-                            # 'file_name':'risk_numbers_climate_scenario_year.xlsx',
-                            # },
-                            # {
-                            # 'type':'risks_timeseries',
-                            # 'groupby':[
-                            #             'rcp',
-                            #             'epoch'
-                            #         ],
-                            # 'file_name':'risk_timeseries_climate_scenario_year.xlsx',
-                            # },
-                            # {
-                            # 'type':'discounted_risks_timeseries',
-                            # 'groupby':[
-                            #             'rcp',
-                            #             'epoch'
-                            #         ],
-                            # 'file_name':'discounted_risk_timeseries_climate_scenario_year.xlsx',
-                            # },
-                            # {
-                            # 'type':'risks_timeseries_assets',
-                            # 'groupby':[
-                            #         ],
-                            # 'file_name':'asset_risk_timeseries_climate_scenario_year.xlsx',
-                            # },
-                            # {
-                            # 'type':'discounted_risks_timeseries_assets',
-                            # 'groupby':[
-                            #         ],
-                            # 'file_name':'asset_risk_timeseries_climate_scenario_year.xlsx',
-                            # },
-                            # {
-                            # 'type':'investments',
-                            # 'groupby':[
-                            #         ],
-                            # 'file_name':None,
-                            # },
-                            # {
-                            # 'type':'investment_timeseries',
-                            # 'groupby':[
-                            #             'rcp'
-                            #         ],
-                            # 'file_name':'investment_timeseries_climate_scenarios.xlsx',
-                            # }  
+                            {
+                            'type':'risks',
+                            'groupby':[
+                                        'rcp',
+                                        'epoch'
+                                    ],
+                            'file_name':'risk_numbers_climate_scenario_year.xlsx',
+                            },
+                            {
+                            'type':'risks_timeseries',
+                            'groupby':[
+                                        'rcp',
+                                        'epoch'
+                                    ],
+                            'file_name':'risk_timeseries_climate_scenario_year.xlsx',
+                            },
+                            {
+                            'type':'discounted_risks_timeseries',
+                            'groupby':[
+                                        'rcp',
+                                        'epoch'
+                                    ],
+                            'file_name':'discounted_risk_timeseries_climate_scenario_year.xlsx',
+                            },
+                            {
+                            'type':'risks_timeseries_assets',
+                            'groupby':[
+                                    ],
+                            'file_name':'asset_risk_timeseries_climate_scenario_year.xlsx',
+                            },
+                            {
+                            'type':'discounted_risks_timeseries_assets',
+                            'groupby':[
+                                    ],
+                            'file_name':'asset_risk_timeseries_climate_scenario_year.xlsx',
+                            },
+                            {
+                            'type':'investments',
+                            'groupby':[
+                                    ],
+                            'file_name':None,
+                            },
+                            {
+                            'type':'investment_timeseries',
+                            'groupby':[
+                                        'rcp'
+                                    ],
+                            'file_name':'investment_timeseries_climate_scenarios.xlsx',
+                            }  
                         ]
     start_year = 2020
     end_year = 2080
@@ -547,7 +547,7 @@ def main(config):
             elif (stats_combinations[st]['type'] == 'investments'):
                 exposures = pd.read_parquet(os.path.join(risk_results_path,
                                         asset_sector,
-                                        f"{asset_sector}_design_protection_rp_npvs.parquet"
+                                        f"{asset_sector}_{asset_info.asset_layer}_design_protection_rp_npvs.parquet"
                                         ))
                 exposures = exposures.drop_duplicates(subset=[asset_id],keep='first')
                 group = ["mean_ini_adapt_cost_design_protection_rp"]
