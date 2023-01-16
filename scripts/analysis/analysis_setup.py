@@ -5,6 +5,7 @@ import os
 import shutil
 import pandas as pd
 import geopandas as gpd
+import collections
 from scipy import integrate
 import numpy as np
 import risk_and_adaptation_functions as rad
@@ -80,10 +81,11 @@ def main():
     
     # And create parameter values
     param_values = morris.sample(problem,
-                                10, 
-                                num_levels=10, 
-                                optimal_trajectories=4,
+                                100, 
+                                num_levels=2, 
+                                optimal_trajectories=20,
                                 local_optimization=True)
+    param_values = np.unique(param_values, axis=0)
     """Uniform sampling of the parameters 
     """
     # linear_intervals = 20
@@ -441,6 +443,11 @@ def main():
             for i in range(len(param_values)):
                 # os.remove(os.path.join(results_path,f"param_{i+1}"))
                 shutil.rmtree(os.path.join(results_path,f"param_{i+1}"))
+            
+
+
+
+            ######################################################
             # sector_losses_all = pd.concat(sector_losses_all,
             #                                 axis=0,
             #                                 sort='False',
