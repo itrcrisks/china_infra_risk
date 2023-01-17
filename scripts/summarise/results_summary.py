@@ -244,7 +244,7 @@ def main(config):
                             'generate_quantiles':False 
                             },
                             {
-                            'type':'investment_timeseries',
+                            'type':'benefits_costs',
                             'EAD_groupby':[
                                         'rcp',
                                         'model',
@@ -370,7 +370,7 @@ def main(config):
                             'file_name':None,
                             },
                             {
-                            'type':'investment_timeseries',
+                            'type':'benefits_costs',
                             'groupby':[
                                         'rcp'
                                     ],
@@ -511,7 +511,7 @@ def main(config):
                                     stats_combinations[st],stats_wrtr,
                                     quantile_combinations[st],quantile_wrtr,write_values=write_values)
 
-            elif stats_combinations[st]['type'] == 'investment_timeseries':
+            elif stats_combinations[st]['type'] == 'benefits_costs':
                 # defense = ['undefended','designed_protection','avoided']
                 asset_risks = []
                 root_dir = os.path.join(risk_results_path,asset_sector)
@@ -549,7 +549,18 @@ def main(config):
                                         asset_sector,
                                         f"{asset_sector}_{asset_info.asset_layer}_design_protection_rp_npvs.parquet"
                                         ))
-                exposures = exposures.drop_duplicates(subset=[asset_id],keep='first')
+                np_exposures = pd.read_parquet(os.path.join(risk_results_path,
+                                                asset_sector,
+                                                f"{asset_sector}_{asset_info.asset_layer}_no_protection_rp_npvs.parquet"
+                                                ))
+                np_exposures = list(
+                            set(
+                                np_exposures[
+                                    (np_exposures["EAD_river"] + np_exposures["EAEL_river"]) > 0
+                                    ][asset_id].values.tolist()
+                                )
+                            )
+                exposures = exposures[exposures[asset_id].isin(np_exposures)].drop_duplicates(subset=[asset_id],keep='first')
                 group = ["mean_ini_adapt_cost_design_protection_rp"]
                 for cnt in (0,2):        
                     if cnt == 0:
