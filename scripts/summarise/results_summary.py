@@ -264,7 +264,7 @@ def main(config):
                             'cost_groupby':[
                                         'discount_rate'
                                     ], 
-                            'file_name':'investment_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
+                            'file_name':'benefits_costs_climate_scenario_model_year_sensitivity_parameters.xlsx',
                             'generate_quantiles':True  
                             },
                         ]
@@ -374,7 +374,7 @@ def main(config):
                             'groupby':[
                                         'rcp'
                                     ],
-                            'file_name':'investment_timeseries_climate_scenarios.xlsx',
+                            'file_name':'benefits_costs_climate_scenarios.xlsx',
                             }  
                         ]
     start_year = 2020
@@ -474,7 +474,7 @@ def main(config):
                                         f"{asset_sector}.gpkg"),
                                         layer=asset_info.asset_layer)
 
-            if stats_combinations[st]['type'] != 'investment_timeseries':
+            if stats_combinations[st]['type'] != 'benefits_costs':
                 output_excel = os.path.join(stats_path,
                                     f"{asset_sector}_{stats_combinations[st]['file_name']}")
                 stats_wrtr = pd.ExcelWriter(output_excel)
@@ -577,7 +577,7 @@ def main(config):
                             add_values=True,write_values=write_values,
                             generate_groups = True,
                             generate_quantiles=False)
-            if stats_combinations[st]['type'] != 'investment_timeseries':
+            if stats_combinations[st]['type'] != 'benefits_costs':
                 stats_wrtr.save()
             if stats_combinations[st]['generate_quantiles'] is True:
                 quantile_wrtr.save()
