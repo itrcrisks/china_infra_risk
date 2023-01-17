@@ -92,7 +92,7 @@ def main(config):
                             {
                             'type':'losses',
                             'addby':[
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'economic_loss_parameter',
                                         'duration'
                                     ],
@@ -101,7 +101,7 @@ def main(config):
                                         'model',
                                         'epoch',
                                         'rp',
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'economic_loss_parameter',
                                         'duration'
                                     ],
@@ -111,7 +111,7 @@ def main(config):
                             {
                             'type':'losses',
                             'addby':[
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'economic_loss_parameter',
                                         'duration'
                                     ],
@@ -121,7 +121,7 @@ def main(config):
                                         'model',
                                         'epoch',
                                         'rp',
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'economic_loss_parameter',
                                         'duration'
                                     ],
@@ -142,7 +142,7 @@ def main(config):
                                         'rcp',
                                         'model',
                                         'epoch',
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'duration',
                                         'economic_loss_parameter',
                                     ],
@@ -164,7 +164,7 @@ def main(config):
                                         'model',
                                         'duration',
                                         'economic_loss_parameter',
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'growth_rate'
                                     ],
                             'file_name':'risk_timeseries_climate_scenario_model_year_sensitivity_parameters.xlsx',
@@ -186,7 +186,7 @@ def main(config):
                                         'model',
                                         'duration',
                                         'economic_loss_parameter',
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'discount_rate',
                                         'growth_rate'
                                     ],
@@ -256,7 +256,7 @@ def main(config):
                                         'rcp',
                                         'model',
                                         'duration',
-                                        'fragility_parameter',
+                                        # 'fragility_parameter',
                                         'economic_loss_parameter',
                                         'discount_rate',
                                         'growth_rate'
