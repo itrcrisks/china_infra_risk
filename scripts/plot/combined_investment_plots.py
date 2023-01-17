@@ -225,12 +225,7 @@ def main(config):
                         f"{sector['sector']}_investment_numbers.xlsx"),
                         sheet_name=f"{sector['sector']}-by-asset-protection")
 
-        exposures = pd.read_parquet(os.path.join(risk_results_path,sector['sector'],
-                        f"{sector['sector']}_{sector['asset_type']}_{sector['flood_protection_column']}_exposures.parquet")) 
-        flood_ids = list(set(exposures[sector['id_column']].values.tolist()))
-        del exposures
-
-
+        flood_ids = list(set(investments[sector['id_column']].values.tolist()))
         assets = gpd.GeoDataFrame(pd.merge(assets,
                                 investments[[sector['id_column'],investment_column]],
                                 how='left',on=[sector['id_column']]),

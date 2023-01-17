@@ -220,6 +220,20 @@ def main(config):
                         'scenario_marker':['s-','^-'],     
                         'file_name':'losses_numbers_climate_scenario_year_return_period.xlsx',
                         'plot_name':'losses_numbers_climate_scenario_year_return_period.png'
+                        },
+                        {
+                        'type':'exposures',
+                        'groupby':[
+                                    'rcp',
+                                    'epoch',
+                                    'rp'
+                                ],
+                        'years':[2030,2050,2080],
+                        'climate_scenarios':['4.5','8.5'], 
+                        'scenario_color':['#d94801','#7f2704'], 
+                        'scenario_marker':['s-','^-'],     
+                        'file_name':'exposures_numbers_climate_scenario_year_return_period.xlsx',
+                        'plot_name':'exposures_numbers_climate_scenario_year_return_period.png'
                         }
                     ]
 
@@ -471,6 +485,101 @@ def main(config):
                         size=18,
                         weight='bold')
                     if j <= 3:
+                        ax.set_title(
+                                sector['sector_label'],
+                                fontdict = {'fontsize':18,
+                                'fontweight':'bold'})
+
+                    j+=1            
+
+            ax_plots[7].legend(
+                        loc='upper left', 
+                        bbox_to_anchor=(1.05,0.8),
+                        prop={'size':18,'weight':'bold'})
+            plt.tight_layout()
+            save_fig(os.path.join(figures,plot_types[st]['plot_name']))
+            plt.close()
+        elif st == 3:
+            figure_texts = ['a.','b.','c.','d.','e.','f.','g.','h.','i.','j.','k.','l.']
+            quantiles_list = ['mean','amin','amax']
+            fig, ax_plots = plt.subplots(3,4,
+                    figsize=(30,16),
+                    dpi=500)
+            ax_plots = ax_plots.flatten()
+            j = 0
+            for year in plot_types[st]['years']:
+                for s in range(len(sector_descriptions)):
+                    sector = sector_descriptions[s]
+                    exposures = pd.read_excel(os.path.join(output_path,
+                                            'exposures',
+                                            f"{sector['sector']}_{plot_types[st]['file_name']}"),
+                                sheet_name=f"{sector['sector']}-design_protection_rp")[
+                                plot_types[st]['groupby'] + [f"{sector['exposure_column']}_{g}" for g in quantiles_list]]
+                    rps = list(set(exposures['rp'].values)) 
+                    ax = ax_plots[j]
+                    ax.plot(exposures[exposures['epoch'] == baseyear]['rp'],
+                            sector['length_unit']*exposures[exposures['epoch'] == baseyear][f"{sector['exposure_column']}_{quantiles_list[0]}"],
+                            'o-',color='#fd8d3c',markersize=10,linewidth=2.0,
+                            label='Baseline')
+                    for c in range(len(plot_types[st]['climate_scenarios'])):
+                        sc = plot_types[st]['climate_scenarios'][c]
+                        cl = plot_types[st]['scenario_color'][c]
+                        m = plot_types[st]['scenario_marker'][c]
+                        exp = exposures[(exposures['epoch'] == year) & (exposures['rcp'] == sc)]
+                        ax.plot(exp['rp'],
+                                sector['length_unit']*exp[f"{sector['exposure_column']}_{quantiles_list[0]}"],
+                                m,color=cl,markersize=10,linewidth=2.0,
+                                label=f"RCP {sc.upper()} mean")
+                        # ax.fill_between(exp['rp'],sector['length_unit']*exp[f"{sector['exposure_column']}_{quantiles_list[0]}"],
+                        #     sector['length_unit']*exp[f"{sector['exposure_column']}_{quantiles_list[1]}"],alpha=0.3,facecolor=cl)
+                        ax.fill_between(exp['rp'],sector['length_unit']*exp[f"{sector['exposure_column']}_{quantiles_list[1]}"],
+                            sector['length_unit']*exp[f"{sector['exposure_column']}_{quantiles_list[2]}"],alpha=0.3,facecolor=cl,
+                            label=f"RCP {sc.upper()} min-max")
+
+
+                    
+                    ax.set_xlabel('Return period (years)',fontsize=14,fontweight='bold')
+                    if sector['asset_type'] == 'nodes':
+                        ax.set_ylabel('Flooded number of assets',fontsize=14,fontweight='bold')
+                    else:
+                        ax.set_ylabel('Flooded length (km)',fontsize=14,fontweight='bold')
+                    # if j == 9:    
+                    #     ax.legend(loc='lower right',prop={'size':14,'weight':'bold'})
+                    ax.set_xscale('log')
+                    # if sector['sector'] == 'road':
+                    #     ax.set_yscale('log')
+
+                    ax.tick_params(axis='both', labelsize=14)
+                    ax.set_xticks([t for t in rps])
+                    ax.set_xticklabels([str(t) for t in rps])
+                    ax.grid(True)
+                    # ax.set_xticks([t for t in list(set(exposures[exposures['year'] == baseyear]['return_period'].values))], 
+                    #             [str(t) for t in list(set(exposures[exposures['year'] == baseyear]['return_period'].values))])
+                    ax.text(
+                        0.05,
+                        0.95,
+                        figure_texts[j],
+                        horizontalalignment='left',
+                        transform=ax.transAxes,
+                        size=18,
+                        weight='bold')
+                    ax.text(
+                        0.05,
+                        0.80,
+                        year,
+                        horizontalalignment='left',
+                        transform=ax.transAxes,
+                        size=18,
+                        weight='bold')
+                    if j <= 3:
+                        # ax.text(
+                        #     0.35,
+                        #     0.95,
+                        #     sector['sector_label'],
+                        #     horizontalalignment='left',
+                        #     transform=ax.transAxes,
+                        #     size=18,
+                        #     weight='bold')
                         ax.set_title(
                                 sector['sector_label'],
                                 fontdict = {'fontsize':18,
