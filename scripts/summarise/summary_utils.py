@@ -98,6 +98,7 @@ def change_string_to_array(x,column_name):
 def add_rows_and_transpose(df,df_merge,grouping_by_columns,grouped_columns,merge_df_columns):
     gr_cols = [c for c in df.columns.values.tolist() if c in grouped_columns]
     if len(grouping_by_columns) > 0:
+        df = df.drop_duplicates(subset=grouping_by_columns,keep='first')
         df = grouping_values(df,grouping_by_columns,gr_cols)
     else:
         df = df[gr_cols].sum(axis=0)
@@ -210,7 +211,7 @@ def get_cost_benefit_results(asset_risks,filedir,file,sector,sector_id_column,st
                 asset_risks = pd.merge(asset_risks,ar,how='left',on=[sector_id_column] + quantile_comb['groupby'])
             else:
                 asset_risks = ar.copy()
-        print (asset_risks)
+        # print (asset_risks)
         for cost in cost_cols:
             if "ini_adapt_cost" in cost:
                 costs = exposures[[sector_id_column, 
