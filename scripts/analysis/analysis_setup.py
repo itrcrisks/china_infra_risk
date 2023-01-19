@@ -264,7 +264,7 @@ def main():
 
                 sector_damages['damage_cost_parameter'] = damage_cost_parameter
                 sector_damages['fragility_parameter'] = fragility_parameter
-                sector_losses['fragility_parameter'] = fragility_parameter
+                # sector_losses['fragility_parameter'] = fragility_parameter
                 sector_losses['economic_loss_parameter'] = economic_loss_parameter
                 sector_losses['duration'] = duration
 
@@ -327,7 +327,7 @@ def main():
                 ead_time_series['damage_cost_parameter'] = damage_cost_parameter
                 ead_time_series['fragility_parameter'] = fragility_parameter
 
-                eael_time_series['fragility_parameter'] = fragility_parameter
+                # eael_time_series['fragility_parameter'] = fragility_parameter
                 eael_time_series['economic_loss_parameter'] = economic_loss_parameter
                 eael_time_series['duration'] = duration
                 eael_time_series['growth_rate'] = gdp_growth_fluctuate
@@ -336,7 +336,7 @@ def main():
                 ead_time_series_discounted['fragility_parameter'] = fragility_parameter
                 ead_time_series_discounted['discount_rate'] = discount_rate
                 
-                eael_time_series_discounted['fragility_parameter'] = fragility_parameter
+                # eael_time_series_discounted['fragility_parameter'] = fragility_parameter
                 eael_time_series_discounted['economic_loss_parameter'] = economic_loss_parameter
                 eael_time_series_discounted['duration'] = duration
                 eael_time_series_discounted['growth_rate'] = gdp_growth_fluctuate

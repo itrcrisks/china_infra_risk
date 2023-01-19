@@ -764,7 +764,7 @@ def get_damage_data(x,damage_data_path,
     else:
         x_data = data.wind_speed
 
-    y_data = data.min_damage_ratio + uncertainty_parameter*(data.max_damage_ratio - data.max_damage_ratio)
+    y_data = data.min_damage_ratio + uncertainty_parameter*(data.max_damage_ratio - data.min_damage_ratio)
     y_data = np.minimum(y_data*(1 + uplift_factor), 1.0)
 
     return x_data.values, y_data.values
@@ -833,7 +833,7 @@ def direct_damage_estimation(hazard_effect_df,
                                     dropna=False).agg(sum_dict).reset_index()
 
             hazard_asset_effect_df['fragility_parameter'] = damage_uncertainty_parameter
-            hazard_asset_effect_df['cost_parameter'] = cost_uncertainty_parameter
+            hazard_asset_effect_df['damage_cost_parameter'] = cost_uncertainty_parameter
             hazard_damages.append(hazard_asset_effect_df)
 
         del hazard_asset_effect_df
