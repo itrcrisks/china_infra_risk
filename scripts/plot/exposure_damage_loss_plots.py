@@ -222,6 +222,21 @@ def main(config):
                         'plot_name':'losses_numbers_climate_scenario_year_return_period.png'
                         },
                         {
+                        'type':'damages_plus_losses',
+                        'groupby':[
+                                    'rcp',
+                                    'epoch',
+                                    'rp'
+                                ],
+                        'years':[2030,2050,2080],
+                        'climate_scenarios':['4.5','8.5'], 
+                        'scenario_color':['#d94801','#7f2704'], 
+                        'scenario_marker':['s-','^-'],     
+                        'file_name':'numbers_climate_scenario_year_return_period.xlsx',
+                        'plot_name':'damages_plus_losses_numbers_climate_scenario_year_return_period.png'
+                        },
+
+                        {
                         'type':'exposures',
                         'groupby':[
                                     'rcp',
@@ -500,6 +515,153 @@ def main(config):
             save_fig(os.path.join(figures,plot_types[st]['plot_name']))
             plt.close()
         elif st == 3:
+            figure_texts = ['a.','b.','c.','d.','e.','f.','g.','h.','i.','j.','k.','l.']
+            quantiles_list = ['mean','amin','amax']
+            fig, ax_plots = plt.subplots(3,4,
+                    figsize=(30,16),
+                    dpi=500)
+            ax_plots = ax_plots.flatten()
+            j = 0
+            for year in plot_types[st]['years']:
+                for s in range(len(sector_descriptions)):
+                    y_ticks = []
+                    sector = sector_descriptions[s]
+                    damages = pd.read_excel(os.path.join(output_path,
+                                            'damages',
+                                            f"{sector['sector']}_damages_{plot_types[st]['file_name']}"),
+                                sheet_name=f"{sector['sector']}-design_protection_rp")[
+                                plot_types[st]['groupby'] + [f"{sector['exposure_column']}_{g}" for g in quantiles_list]]
+                    damages.rename(columns = dict([(f"{sector['exposure_column']}_{g}",f"damages_{g}") for g in quantiles_list]),inplace=True)
+                    # print (damages)
+                    losses = pd.read_excel(os.path.join(output_path,
+                                            'losses',
+                                            f"{sector['sector']}_losses_{plot_types[st]['file_name']}"),
+                                sheet_name=f"{sector['sector']}-design_protection_rp")[
+                                plot_types[st]['groupby'] + [f"{sector['exposure_column']}_{g}" for g in quantiles_list]]
+                    losses.rename(columns = dict([(f"{sector['exposure_column']}_{g}",f"losses_{g}") for g in quantiles_list]),inplace=True)
+                    # print (losses)
+                    exposures = pd.merge(damages,losses,how="left",on=plot_types[st]['groupby'])
+                    for g in quantiles_list:
+                        exposures[f"{sector['exposure_column']}_{g}"] = exposures[f"damages_{g}"] + exposures[f"losses_{g}"]
+                    rps = list(set(exposures['rp'].values)) 
+                    y_ticks.append(
+                        cost_unit*exposures[(
+                                    exposures[f"{sector['exposure_column']}_mean"] > 0
+                                    )][f"{sector['exposure_column']}_mean"].min())
+                    y_ticks.append(
+                        cost_unit*exposures[(
+                                    exposures[f"{sector['exposure_column']}_mean"] > 0
+                                    )][f"{sector['exposure_column']}_mean"].max())
+                    y_ticks.append(
+                        cost_unit*exposures[(
+                                    exposures[f"{sector['exposure_column']}_amin"] > 0
+                                    )][f"{sector['exposure_column']}_amin"].min())
+                    y_ticks.append(
+                        cost_unit*exposures[(
+                                    exposures[f"{sector['exposure_column']}_amin"] > 0
+                                    )][f"{sector['exposure_column']}_amin"].max())
+                    y_ticks.append(
+                        cost_unit*exposures[(
+                                    exposures[f"{sector['exposure_column']}_amax"] > 0
+                                    )][f"{sector['exposure_column']}_amax"].min())
+                    y_ticks.append(
+                        cost_unit*exposures[(
+                                    exposures[f"{sector['exposure_column']}_amax"] > 0
+                                    )][f"{sector['exposure_column']}_amax"].max())
+                    ax = ax_plots[j]
+                    base_exp = exposures[exposures['epoch'] == baseyear]
+                    ax.plot(base_exp['rp'],
+                            cost_unit*base_exp[f"{sector['exposure_column']}_{quantiles_list[0]}"],
+                            'o-',color='#fd8d3c',markersize=10,linewidth=2.0,
+                            label='Baseline mean')
+                    ax.fill_between(base_exp['rp'],
+                            cost_unit*base_exp[f"{sector['exposure_column']}_{quantiles_list[1]}"],
+                            cost_unit*base_exp[f"{sector['exposure_column']}_{quantiles_list[2]}"],
+                            alpha=0.3,facecolor='#fd8d3c',
+                            label=f"Baseline min-max")
+
+                    # y_ticks.append(cost_unit*base_exp[f"{sector['exposure_column']}_mean"].mean())
+                    # y_ticks.append(
+                    #     cost_unit*base_exp[(
+                    #                 base_exp[f"{sector['exposure_column']}_amin"] > 0
+                    #                 )][f"{sector['exposure_column']}_amin"].min())
+                    # y_ticks.append(cost_unit*base_exp[f"{sector['exposure_column']}_amax"].max())
+                    for c in range(len(plot_types[st]['climate_scenarios'])):
+                        sc = plot_types[st]['climate_scenarios'][c]
+                        cl = plot_types[st]['scenario_color'][c]
+                        m = plot_types[st]['scenario_marker'][c]
+                        exp = exposures[(exposures['epoch'] == year) & (exposures['rcp'] == sc)]
+                        ax.plot(exp['rp'],
+                                cost_unit*exp[f"{sector['exposure_column']}_{quantiles_list[0]}"],
+                                m,color=cl,markersize=10,linewidth=2.0,
+                                label=f"RCP {sc.upper()} mean")
+                        ax.fill_between(exp['rp'],cost_unit*exp[f"{sector['exposure_column']}_{quantiles_list[1]}"],
+                            cost_unit*exp[f"{sector['exposure_column']}_{quantiles_list[2]}"],alpha=0.3,facecolor=cl,
+                            label=f"RCP {sc.upper()} min-max")
+
+
+                        # y_ticks.append(cost_unit*exp[f"{sector['exposure_column']}_mean"].mean())
+                        # y_ticks.append(
+                        #     cost_unit*exp[(
+                        #                 exp[f"{sector['exposure_column']}_amin"] > 0
+                        #                 )][f"{sector['exposure_column']}_amin"].min())
+                        # y_ticks.append(cost_unit*exp[f"{sector['exposure_column']}_amax"].max())
+                    
+                    ax.set_xlabel('Return period (years)',fontsize=14,fontweight='bold')
+                    ax.set_ylabel(f"Damages + Losses (RMB billion)",fontsize=14,fontweight='bold')
+                    ax.set_xscale('log')
+                    ax.set_yscale('log')
+                    mod_ytick = []
+                    for t in y_ticks:
+                        if round (t,2) == 0:
+                            mod_ytick.append(1e-2)
+                        elif t < 1:
+                            mod_ytick.append(round(t,2))
+                        else:
+                            mod_ytick.append(int(t))
+
+                    y_ticks = sorted(list(set(mod_ytick)))
+                    print (y_ticks)
+                    # ax.set_yscale('log')
+                    ax.set_yticks(y_ticks)
+                    ax.set_yticklabels([str(t) for t in y_ticks])
+
+                    ax.tick_params(axis='both', labelsize=14)
+                    ax.set_xticks([t for t in rps])
+                    ax.set_xticklabels([str(t) for t in rps])
+                    ax.grid(True)
+                    ax.text(
+                        0.05,
+                        0.95,
+                        figure_texts[j],
+                        horizontalalignment='left',
+                        transform=ax.transAxes,
+                        size=18,
+                        weight='bold')
+                    ax.text(
+                        0.05,
+                        0.80,
+                        year,
+                        horizontalalignment='left',
+                        transform=ax.transAxes,
+                        size=18,
+                        weight='bold')
+                    if j <= 3:
+                        ax.set_title(
+                                sector['sector_label'],
+                                fontdict = {'fontsize':18,
+                                'fontweight':'bold'})
+
+                    j+=1            
+
+            ax_plots[7].legend(
+                        loc='upper left', 
+                        bbox_to_anchor=(1.05,0.8),
+                        prop={'size':18,'weight':'bold'})
+            plt.tight_layout()
+            save_fig(os.path.join(figures,plot_types[st]['plot_name']))
+            plt.close()
+        elif st == 4:
             figure_texts = ['a.','b.','c.','d.','e.','f.','g.','h.','i.','j.','k.','l.']
             quantiles_list = ['mean','amin','amax']
             fig, ax_plots = plt.subplots(3,4,

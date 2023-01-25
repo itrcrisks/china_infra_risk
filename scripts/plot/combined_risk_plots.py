@@ -121,25 +121,25 @@ def main(config):
                     }
                     ]
     plot_types = [
-                    # {
-                    # 'type':'asset_risks',
-                    # # 'EAD_dropby':[
-                    # #                 'flood_parameter',
-                    # #                 'fragility_parameter',
-                    # #             ],
+                    {
+                    'type':'asset_risks',
+                    # 'EAD_dropby':[
+                    #                 'flood_parameter',
+                    #                 'fragility_parameter',
+                    #             ],
 
-                    # # 'EAEL_dropby':[
-                    # #                 'duration',
-                    # #                 'economic_parameter',
-                    # #                 ],
-                    # 'plot_name':'mean_risks_baseline_year'
-                    # },
-                    # {
-                    # 'type':'asset_risks_future',
-                    # 'years':[2030,2050,2080],
-                    # 'climate_scenarios':[4.5,8.5],
-                    # 'plot_name':'mean_risks_futures_climate_scenarios'
-                    # },
+                    # 'EAEL_dropby':[
+                    #                 'duration',
+                    #                 'economic_parameter',
+                    #                 ],
+                    'plot_name':'mean_risks_baseline_year'
+                    },
+                    {
+                    'type':'asset_risks_future',
+                    'years':[2030,2050,2080],
+                    'climate_scenarios':[4.5,8.5],
+                    'plot_name':'mean_risks_futures_climate_scenarios'
+                    },
                     {
                     'type':'asset_risks_changes',
                     'years':[2030,2050,2080],
@@ -147,7 +147,7 @@ def main(config):
                     'plot_name':'mean_risks_changes_climate_scenarios'
                     },
                     {
-                    'type':'risk_timeseries_lineplots',
+                    'type':'risk_timeseries',
                     'groupby':[
                                 'rcp',
                                 'epoch'
@@ -156,6 +156,17 @@ def main(config):
                     'scenario_color':['#2171b5','#08306b'], 
                     'scenario_marker':['s-','^-'],     
                     'plot_name':'risk_timeseries_lineplots'
+                    },
+                    {
+                    'type':'discounted_risk_timeseries',
+                    'groupby':[
+                                'rcp',
+                                'epoch'
+                            ],
+                    'climate_scenarios':[4.5,8.5], 
+                    'scenario_color':['#2171b5','#08306b'], 
+                    'scenario_marker':['s-','^-'],     
+                    'plot_name':'discounted_risk_timeseries_lineplots'
                     },
                 ]
     baseyear = 2020
@@ -592,7 +603,7 @@ def main(config):
                         save_fig(os.path.join(figures,
                             f"{plot_types[st]['plot_name']}_{case}_{str(scenario).replace('.','').replace(' ','')}.png"))
                     plt.close()
-            elif plot_types[st]['type'] == 'risk_timeseries_lineplots':
+            elif plot_types[st]['type'] in ('risk_timeseries','discounted_risk_timeseries'):
                 figure_texts = ['a.','b.','c.','d.','e.','f.','g.','h.','k.','l.','m.','n.']
                 quantiles_list = ['mean','amin','amax']
                 fig, ax_plots = plt.subplots(len(risk_types),len(sector_descriptions),
@@ -603,14 +614,14 @@ def main(config):
                 for s in range(len(sector_descriptions)):
                     sector = sector_descriptions[s]
                     risks_ead = pd.read_excel(os.path.join(output_path,
-                                        'risks_timeseries',
-                                        f"{sector['sector']}_risk_timeseries_climate_scenario_year.xlsx"),
+                                        plot_types[st]['type'],
+                                        f"{sector['sector']}_{plot_types[st]['type']}_climate_scenario_year.xlsx"),
                             sheet_name=f"{sector['sector']}-EAD-design")[
                             plot_types[st]['groupby'] + [
                                                 f"EAD_{case}_timeseries_npv_{g}" for g in quantiles_list]]
                     risks_eael = pd.read_excel(os.path.join(output_path,
-                                        'risks_timeseries',
-                                        f"{sector['sector']}_risk_timeseries_climate_scenario_year.xlsx"),
+                                        plot_types[st]['type'],
+                                        f"{sector['sector']}_{plot_types[st]['type']}_climate_scenario_year.xlsx"),
                             sheet_name=f"{sector['sector']}-EAEL-design")[
                             plot_types[st]['groupby'] + [
                                                 f"EAEL_{case}_timeseries_npv_{g}" for g in quantiles_list]]

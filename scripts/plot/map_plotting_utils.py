@@ -348,7 +348,7 @@ def point_map_plotting(ax,df,df_column,
 
     weights = [
         getattr(record,column)
-        for record in df.itertuples()
+        for record in df.itertuples() if getattr(record,column) > 0
     ]
     max_weight = max(weights)
     width_by_range = generate_weight_bins(weights, width_step=20, n_steps=4)
@@ -495,7 +495,7 @@ def point_map_plotting_color_width(ax,df,df_column,
     point_geoms_by_category = {'{}'.format(j):[] for j in range(len(all_colors))}
     weights = [
         getattr(record,column)
-        for record in df.itertuples()
+        for record in df.itertuples() if getattr(record,column) > 0
     ]
     max_weight = max(weights)
     width_by_range = generate_weight_bins(weights, 
