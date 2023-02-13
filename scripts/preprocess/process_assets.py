@@ -4,6 +4,7 @@ import os
 import sys
 import pandas as pd
 import geopandas as gpd
+import numpy as np
 from preprocess_utils import *
 
 def damage_costs_and_economic_loss_estimates(asset_df,asset_dictionary,cost_uncertainty_factor=0.25,loss_uncertainty_factor=0.25):
@@ -139,12 +140,11 @@ def main(config):
                                                 "Region",asset_type=sector["sector_type"])
         sector_attributes = pd.read_csv(os.path.join(incoming_data_path,"asset_attributes",sector["attribute_info"]))
         sector_attributes.rename(columns={sector["flood_protection_column"]:"design_protection_rp"},inplace=True)
-        sector_attributes['asset_type'] = sector['sector']
+
         sector_attributes = damage_costs_and_economic_loss_estimates(sector_attributes,
         															sector)
         sector_attributes = sector_attributes[[sector["id_column"],
-                                                "asset_type",
-        										"design_protection_rp",
+                                                "design_protection_rp",
                                                 "mean_damage_cost",
         										"min_damage_cost",
         										"max_damage_cost",
@@ -154,6 +154,10 @@ def main(config):
         										"economic_loss_unit"
         										]]
         sector_df = pd.merge(sector_attributes,sector_shape,how="left",on=[sector['id_column']]).fillna(0)
+        if sector['sector'] != "road":
+            sector_df['asset_type'] = sector['sector']
+        else:
+            sector_df['asset_type'] = np.where(sector_df["grade"].isin([3,4]),"low class","high class")
         sector_df = gpd.GeoDataFrame(sector_df,geometry="geometry",crs=f"EPSG:{china_proj}")
         if sector['sector'] == "road":
             sector_df["road_length_km"] = sector_df.apply(lambda x: line_length_km(x.geometry),axis=1)

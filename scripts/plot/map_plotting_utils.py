@@ -427,7 +427,7 @@ def line_map_plotting_colors_width(ax,df,df_column,
                                 n_steps=line_steps,
                                 interpolation=interpolation)
     # print (min(weights),max(weights))
-    # print (width_by_range)
+    print (width_by_range)
     min_width = 0.8*width_step
     for record in df.itertuples():
         geom = record.geometry
@@ -439,7 +439,7 @@ def line_map_plotting_colors_width(ax,df,df_column,
                 cat = str(i)
                 # min_width = width
                 break
-            elif nmin <= val and val < nmax:
+            elif nmin <= val and val <= nmax:
                 buffered_geom = geom.buffer(width)
                 cat = str(i+1)
 
@@ -511,7 +511,7 @@ def point_map_plotting_color_width(ax,df,df_column,
                 point_geoms_by_category[str(i)].append((geom,width/2))
                 min_width = width/2
                 break
-            elif nmin <= val and val < nmax:
+            elif nmin <= val and val <= nmax:
                 point_geoms_by_category[str(i+1)].append((geom,width))
 
     style_noflood = [(str(0),  Style(color=no_value_color, zindex=7,label='No {}'.format(value_label)))]
